@@ -14,25 +14,10 @@ import { StatusBar, View } from 'react-native';
 import Constants from 'expo-constants';
 import { createStackNavigator } from '@react-navigation/stack';
 import EntryDetail from './components/EntryDetail'
+import Live from './components/Live'
+import { setLocalNotification } from './utils/helpers'
 
 const Stack = createStackNavigator();
-
-const StackConfigs = {
-  home: {
-    screen: Tabs,
-    navigationOptions: {
-      header: null,
-    },
-  },
-  EntryDetail: {
-    screenOptions: {
-      headerTintColor: white,
-      headerStyle: {
-        backgroundColor: purple,
-      },
-    },
-  },
-};
 
 const RouteConfigs = {
   History:{
@@ -44,6 +29,11 @@ const RouteConfigs = {
     component: AddEntry,
     name: "Add Entry",
     options: {tabBarIcon: ({tintColor}) => <FontAwesome name='plus-square' size={30} color={tintColor} />, title: 'Add Entry'}
+  },
+  Live:{
+    component: Live,
+    name: "Live",
+    options: {tabBarIcon: ({tintColor}) => <Ionicons name='ios-speedometer' size={30} color={tintColor} />, title: 'Live'}
   }
 }
 
@@ -83,6 +73,7 @@ const Tabs = () => (
     <Tab.Navigator {...TabNavigatorConfig}>
         <Tab.Screen {...RouteConfigs['History']} />
         <Tab.Screen {...RouteConfigs['AddEntry']} />
+        <Tab.Screen {...RouteConfigs['Live']} />
     </Tab.Navigator>
 )
 const MainNav = () => (
@@ -103,6 +94,10 @@ const MainNav = () => (
 );
 
 export default class App extends React.Component {
+
+  componentDidMount() {
+    setLocalNotification()
+  }
 
   render() {
     return (
